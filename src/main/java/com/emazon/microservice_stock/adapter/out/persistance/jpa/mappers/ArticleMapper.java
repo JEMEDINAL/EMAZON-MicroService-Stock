@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ArticleMapper {
-    //ArticleEntity articleToArticleEntity(Article<Long,Long> article);
+
     default List<Article<CategoryResponse, BrandResponse>> articlesResponse(List<ArticleEntity> articleEntities){
         return articleEntities.stream()
                 .map(articleEntity -> {

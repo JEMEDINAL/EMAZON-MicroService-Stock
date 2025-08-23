@@ -1,6 +1,7 @@
 package com.emazon.microservice_stock.adapter.out.errorhandler;
 
 
+import com.emazon.microservice_stock.domain.constant.category.CategoryBusinessRules;
 import com.emazon.microservice_stock.domain.exception.category.CategoryDescriptionMaxSizeExceeded;
 import com.emazon.microservice_stock.domain.exception.category.CategoryNameExists;
 import com.emazon.microservice_stock.domain.exception.category.CategoryNameMaxSizeExceeded;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -51,5 +53,14 @@ public class ControllerAdvisorCategories {
         errorDetails.put(TIMESTAMP, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String,String>> accessDenied(AccessDeniedException ex){
+        Map<String,String> errorDetails = new HashMap<>();
+        errorDetails.put(MESSAGE, CategoryBusinessRules.ACCESS_DENIED);
+        errorDetails.put(STATUS, HttpStatus.FORBIDDEN.toString());
+        errorDetails.put(TIMESTAMP, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
     }
 }
