@@ -4,15 +4,13 @@ import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.Catego
 import com.emazon.microservice_stock.domain.model.Categories;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+
 
 
 import java.util.List;
 
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        unmappedSourcePolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
     CategoriesEntity categoryToCategoriesEntity(Categories categories);
     @Mapping(target = "id",ignore = true)
