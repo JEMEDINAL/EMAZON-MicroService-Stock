@@ -7,6 +7,7 @@ import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
 import com.emazon.microservice_stock.domain.model.Article;
 import com.emazon.microservice_stock.domain.port.in.CreateArticleUseCase;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ArticleController {
         this.createArticleUseCase = createArticleUseCase;
     }
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createArticle(@RequestBody ArticleRequest articleRequest){
+    public ResponseEntity<ApiResponse> createArticle(@Valid @RequestBody ArticleRequest articleRequest){
         createArticleUseCase.createArticle(articleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ConstantApiResponse.CREATED_ARTICLE_SUCCESS.getMessage(),
                 HttpStatus.CREATED.value()));

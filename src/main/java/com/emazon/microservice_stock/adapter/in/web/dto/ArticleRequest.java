@@ -1,5 +1,8 @@
 package com.emazon.microservice_stock.adapter.in.web.dto;
 
+import com.emazon.microservice_stock.domain.constant.article.ArticleBusinessRules;
+
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleRequest {
+    @Pattern(regexp = "^(?!\\d+$).+", message = ArticleBusinessRules.NOT_ONLY_NUMBERS)
     private String name;
     private int stock;
     private BigDecimal price;
