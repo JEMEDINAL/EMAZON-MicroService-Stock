@@ -5,13 +5,16 @@ import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.ArticleEntity;
 import com.emazon.microservice_stock.domain.model.Article;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface ArticleMapper {
 
     default List<Article<CategoryResponse, BrandResponse>> articlesResponse(List<ArticleEntity> articleEntities){

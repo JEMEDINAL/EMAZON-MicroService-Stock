@@ -4,6 +4,7 @@ import com.emazon.microservice_stock.adapter.ConstantApiResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.CategoriesRequest;
 import com.emazon.microservice_stock.domain.model.Categories;
 import com.emazon.microservice_stock.domain.port.in.CreateCategoriesUseCase;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CatecoriesController {
 
     }
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createCategories(@RequestBody CategoriesRequest categoriesRequest){
+    public ResponseEntity<ApiResponse> createCategories(@Valid @RequestBody CategoriesRequest categoriesRequest){
 
         createCategoriesUseCase.createCategory(categoriesRequest.getName(), categoriesRequest.getDescription());
 

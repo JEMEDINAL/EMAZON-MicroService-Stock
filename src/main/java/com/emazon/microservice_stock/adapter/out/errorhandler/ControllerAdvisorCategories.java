@@ -7,6 +7,8 @@ import com.emazon.microservice_stock.domain.exception.category.CategoryNameExist
 import com.emazon.microservice_stock.domain.exception.category.CategoryNameMaxSizeExceeded;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -55,12 +57,15 @@ public class ControllerAdvisorCategories {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Map<String,String>> accessDenied(AccessDeniedException ex){
-        Map<String,String> errorDetails = new HashMap<>();
-        errorDetails.put(MESSAGE, CategoryBusinessRules.ACCESS_DENIED);
-        errorDetails.put(STATUS, HttpStatus.FORBIDDEN.toString());
-        errorDetails.put(TIMESTAMP, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String,String>> validationException(MethodArgumentNotValidException ex){
+        Map<String, String> errorDetails = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error->{
+            errorDetails.put(((FieldError)error).getField(),error.getDefaultMessage());
+            errorDetails.put(STATUS,HttpStatus.BAD_REQUEST.toString());
+            errorDetails.put(TIMESTAMP,LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+        });
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 }
