@@ -8,4 +8,5 @@ public final class CategoryBusinessRules {
     public static final int MAX_CHARACTER_DESCRIPTION = 90;
     public static final String ACCESS_ROL = "CREATE";
     public static final String ACCESS_DENIED = "Access denied: You do not have the necessary permissions to perform this action.";
+    public static final String NOT_ONLY_NUMBERS = "The product name and description can only contain letters and spaces.";
 }

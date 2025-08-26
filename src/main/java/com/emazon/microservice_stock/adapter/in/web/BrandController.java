@@ -4,6 +4,7 @@ import com.emazon.microservice_stock.adapter.ConstantApiResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandRequest;
 import com.emazon.microservice_stock.domain.model.Brand;
 import com.emazon.microservice_stock.domain.port.in.CreateBrandUseCase;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class BrandController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ApiResponse> createBrand(@RequestBody BrandRequest brandRequest){
+    public ResponseEntity<ApiResponse> createBrand(@Valid @RequestBody BrandRequest brandRequest){
         brandUseCase.createBrand(brandRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ConstantApiResponse.CREATE_BRAND_SUCCESS.getMessage(),HttpStatus.CREATED.value()));
     }
