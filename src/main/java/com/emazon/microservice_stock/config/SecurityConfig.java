@@ -35,7 +35,7 @@ public class SecurityConfig {
 
                     http.requestMatchers(HttpMethod.POST,"/api/category/create").hasAuthority(CategoryBusinessRules.ACCESS_ROL);
                     http.requestMatchers(HttpMethod.POST,"/api/brand/create").hasAuthority(CategoryBusinessRules.ACCESS_ROL);
-                    http.requestMatchers(HttpMethod.POST,"/api/article/create").hasAuthority(CategoryBusinessRules.ACCESS_ROL);
+                    http.requestMatchers(HttpMethod.POST,"/api/article/**").hasAuthority("ROLE_CELLAR_ASSISTANT");
 
 
 
