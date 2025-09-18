@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        unmappedSourcePolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface ArticleMapper {
 
     default List<Article<CategoryResponse, BrandResponse>> articlesResponse(List<ArticleEntity> articleEntities){

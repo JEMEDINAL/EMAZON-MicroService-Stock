@@ -1,5 +1,6 @@
 package com.emazon.microservice_stock.adapter.out.persistance.jpa;
 
+import com.emazon.microservice_stock.adapter.in.web.ApiResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.ArticleEntity;
@@ -59,6 +60,18 @@ public class JpaArticleRepository implements ArticleRepository {
         List<Article<CategoryResponse,BrandResponse>> articleList = articleMapper.articlesResponse(articleEntityPage.getContent());
 
         return new PageImpl<>(articleList,pageable,articleEntityPage.getTotalElements());
+    }
+
+    @Override
+    public ApiResponse searchToNameArticle(String name,int stock) {
+        ArticleEntity searchArticle = articleJpaRepository.findArticleEntityByName(name).orElse(null);
+        if(searchArticle == null) {
+            return new ApiResponse("No se encontro el articulo se agrega el nuevo",404);
+        }
+        searchArticle.setStock(searchArticle.getStock() + stock);
+        articleJpaRepository.save(searchArticle);
+        return new ApiResponse("Actualizado el articulo",200);
+
     }
 
 
