@@ -5,6 +5,7 @@ import com.emazon.microservice_stock.adapter.in.web.dto.ArticleRequest;
 
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
+import com.emazon.microservice_stock.adapter.in.web.dto.NewSupply;
 import com.emazon.microservice_stock.domain.model.Article;
 import com.emazon.microservice_stock.domain.port.in.CreateArticleUseCase;
 import jakarta.validation.Valid;
@@ -37,5 +38,10 @@ public class ArticleController {
             @RequestParam(defaultValue = "asc") String address
     ){
         return ResponseEntity.ok(createArticleUseCase.findAllArticles(page, size, sortBy, address));
+    }
+
+    @PostMapping("/new-supply")
+    public ResponseEntity<ApiResponse> searchArticleForName(@RequestBody NewSupply newSupply){
+        return ResponseEntity.status(HttpStatus.CREATED).body(createArticleUseCase.searchToNameArticle(newSupply.getName(), newSupply.getStock()));
     }
 }
