@@ -1,5 +1,7 @@
 package com.emazon.microservice_stock.domain.service;
 
+import com.emazon.microservice_stock.adapter.in.web.dto.CategoryDto;
+import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.CategoriesEntity;
 import com.emazon.microservice_stock.domain.model.Categories;
 import com.emazon.microservice_stock.domain.port.in.CreateCategoriesUseCase;
 import com.emazon.microservice_stock.domain.port.out.CategoryRepository;
@@ -19,7 +21,7 @@ public class CreateCategoriesService implements CreateCategoriesUseCase {
     }
 
     @Override
-    public Page<Categories> findAllCategories(int page, int size, String sortBy, String address) {
+    public Page<CategoryDto> findAllCategories(int page, int size, String sortBy, String address) {
         return categoryRepository.findAllCategories(page, size, sortBy, address);
     }
 }

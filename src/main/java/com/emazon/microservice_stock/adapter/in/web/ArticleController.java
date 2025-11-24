@@ -1,10 +1,8 @@
 package com.emazon.microservice_stock.adapter.in.web;
 
 import com.emazon.microservice_stock.adapter.ConstantApiResponse;
+import com.emazon.microservice_stock.adapter.in.web.dto.ArticleDtoResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.ArticleRequest;
-
-import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
-import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.NewSupply;
 import com.emazon.microservice_stock.domain.model.Article;
 import com.emazon.microservice_stock.domain.port.in.CreateArticleUseCase;
@@ -31,7 +29,7 @@ public class ArticleController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<Page<Article<CategoryResponse,BrandResponse>>> findAllPageArticles(
+    public ResponseEntity<Page<ArticleDtoResponse>> findAllPageArticles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "name") String sortBy,

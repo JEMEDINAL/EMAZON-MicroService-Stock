@@ -1,6 +1,7 @@
 package com.emazon.microservice_stock.domain.service;
 
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandRequest;
+import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
 import com.emazon.microservice_stock.domain.model.Brand;
 import com.emazon.microservice_stock.domain.port.in.CreateBrandUseCase;
 import com.emazon.microservice_stock.domain.port.out.BrandRepository;
@@ -21,7 +22,7 @@ public class CreateBrandService implements CreateBrandUseCase {
     }
 
     @Override
-    public Page<Brand> findAllBrands(int page, int size, String sortBy, String address) {
+    public Page<BrandResponse> findAllBrands(int page, int size, String sortBy, String address) {
         return brandRepository.findAllBrand(page, size, sortBy, address);
     }
 }

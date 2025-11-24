@@ -7,14 +7,14 @@ import com.emazon.microservice_stock.domain.exception.article.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
-public class Article<T,M> {
+public class Article {
     private String name;
     private int stock;
     private BigDecimal price;
-    private Set<T> categories;
-    private M brand;
+    private Set<Long> categories;
+    private Long brand;
 
-    public Article(String name, int stock, BigDecimal price, M brand, Set<T> categories) {
+    public Article(String name, int stock, BigDecimal price, Long brand, Set<Long> categories) {
         if(name.isEmpty()||name.length()> ArticleBusinessRules.MAX_VALUR_NAME){
             throw new ArticleMaxSizeName();
         }
@@ -68,19 +68,19 @@ public class Article<T,M> {
         this.price = price;
     }
 
-    public Set<T> getCategories() {
+    public Set<Long> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<T> categories) {
+    public void setCategories(Set<Long> categories) {
         this.categories = categories;
     }
 
-    public M getBrand() {
+    public Long getBrand() {
         return brand;
     }
 
-    public void setBrand(M brand) {
+    public void setBrand(Long brand) {
         this.brand = brand;
     }
 }

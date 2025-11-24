@@ -2,6 +2,7 @@ package com.emazon.microservice_stock.adapter.in.web;
 
 import com.emazon.microservice_stock.adapter.ConstantApiResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandRequest;
+import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
 import com.emazon.microservice_stock.domain.model.Brand;
 import com.emazon.microservice_stock.domain.port.in.CreateBrandUseCase;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class BrandController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<Brand>> findAllBrands(
+    public ResponseEntity<Page<BrandResponse>> findAllBrands(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "name") String sortBy,
