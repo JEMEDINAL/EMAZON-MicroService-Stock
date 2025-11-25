@@ -2,7 +2,7 @@ package com.emazon.microservice_stock.adapter.in.web;
 
 import com.emazon.microservice_stock.adapter.ConstantApiResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.CategoriesRequest;
-import com.emazon.microservice_stock.domain.model.Categories;
+import com.emazon.microservice_stock.adapter.in.web.dto.CategoryDto;
 import com.emazon.microservice_stock.domain.port.in.CreateCategoriesUseCase;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -27,8 +27,8 @@ public class CatecoriesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ConstantApiResponse.CREATED_CATEGORY_SUCCESS.getMessage(),HttpStatus.CREATED.value()));
     }
 
-    @GetMapping("all")
-    public ResponseEntity<Page<Categories>> findAllPageCategories(
+    @GetMapping("/all")
+    public ResponseEntity<Page<CategoryDto>> findAllPageCategories(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "name") String sortBy,

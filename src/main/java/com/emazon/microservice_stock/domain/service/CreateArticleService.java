@@ -1,10 +1,8 @@
 package com.emazon.microservice_stock.domain.service;
 
 import com.emazon.microservice_stock.adapter.in.web.ApiResponse;
+import com.emazon.microservice_stock.adapter.in.web.dto.ArticleDtoResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.ArticleRequest;
-import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
-import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
-import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.ArticleEntity;
 import com.emazon.microservice_stock.domain.model.Article;
 import com.emazon.microservice_stock.domain.port.in.CreateArticleUseCase;
 import com.emazon.microservice_stock.domain.port.out.ArticleRepository;
@@ -20,7 +18,7 @@ public class CreateArticleService implements CreateArticleUseCase {
 
     @Override
     public void createArticle(ArticleRequest articleRequest) {
-        articleRepository.articleSave(new Article<Long,Long>(
+        articleRepository.articleSave(new Article(
                 articleRequest.getName(),
                 articleRequest.getStock(),
                 articleRequest.getPrice(),
@@ -30,7 +28,7 @@ public class CreateArticleService implements CreateArticleUseCase {
     }
 
     @Override
-    public Page<Article<CategoryResponse, BrandResponse>> findAllArticles(int page, int size, String sortBy, String address) {
+    public Page<ArticleDtoResponse> findAllArticles(int page, int size, String sortBy, String address) {
         return articleRepository.findAllArticles(page, size, sortBy, address);
     }
 

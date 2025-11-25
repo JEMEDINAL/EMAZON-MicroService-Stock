@@ -1,17 +1,17 @@
 package com.emazon.microservice_stock.adapter.out.persistance.jpa;
 
 import com.emazon.microservice_stock.adapter.in.web.ApiResponse;
+
+import com.emazon.microservice_stock.adapter.in.web.dto.ArticleDtoResponse;
 import com.emazon.microservice_stock.adapter.in.web.dto.BrandResponse;
-import com.emazon.microservice_stock.adapter.in.web.dto.CategoryResponse;
+import com.emazon.microservice_stock.adapter.in.web.dto.CategoryDto;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.ArticleEntity;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.BrandEntity;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.entities.CategoriesEntity;
-import com.emazon.microservice_stock.adapter.out.persistance.jpa.mappers.ArticleMapper;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.repositories.ArticleJpaRepository;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.repositories.BrandJpaRepository;
 import com.emazon.microservice_stock.adapter.out.persistance.jpa.repositories.CategoriesJpaRepository;
 import com.emazon.microservice_stock.domain.exception.article.NoFoundBrand;
-import com.emazon.microservice_stock.domain.exception.article.NoFoundCategory;
 import com.emazon.microservice_stock.domain.model.Article;
 import com.emazon.microservice_stock.domain.port.out.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JpaArticleRepository implements ArticleRepository {
     private final ArticleJpaRepository articleJpaRepository;
-    private final ArticleMapper articleMapper;
     private final BrandJpaRepository brandJpaRepository;
     private final CategoriesJpaRepository categoriesJpaRepository;
 
 
     @Override
-    public void articleSave(Article<Long,Long> article) {
+    public void articleSave(Article article) {
         Set<CategoriesEntity> categoriesEntitySet = article.getCategories().stream()
                 .map(categoriesJpaRepository::findById)
                 .filter(Optional::isPresent)
@@ -48,7 +47,7 @@ public class JpaArticleRepository implements ArticleRepository {
     }
 
     @Override
-    public Page<Article<CategoryResponse, BrandResponse>> findAllArticles(int page, int size, String sortBy, String address) {
+    public Page<ArticleDtoResponse> findAllArticles(int page, int size, String sortBy, String address) {
         Sort sort = null;
         if (address.equalsIgnoreCase("desc")) {
             sort = Sort.by(sortBy).descending();
@@ -57,9 +56,26 @@ public class JpaArticleRepository implements ArticleRepository {
         }
         Pageable pageable = PageRequest.of(page,size,sort);
         Page<ArticleEntity> articleEntityPage = articleJpaRepository.findAll(pageable);
-        List<Article<CategoryResponse,BrandResponse>> articleList = articleMapper.articlesResponse(articleEntityPage.getContent());
+        Page<ArticleDtoResponse> articleResponse = articleEntityPage.map(article -> {
+           ArticleDtoResponse articleDtoResponse = new ArticleDtoResponse();
+           articleDtoResponse.setId(article.getId());
+           articleDtoResponse.setName(article.getName());
+           articleDtoResponse.setStock(article.getStock());
+           articleDtoResponse.setPrice(article.getPrice());
+           articleDtoResponse.setCategories(article.getCategories().stream().map(
+                   category ->{
+                       CategoryDto categoryDto = new CategoryDto();
+                       categoryDto.setId(category.getId());
+                       categoryDto.setName(category.getName());
+                       categoryDto.setDescription(category.getDescription());
+                       return categoryDto;
+                   }).collect(Collectors.toSet()));
+           articleDtoResponse.setBrandResponse(new BrandResponse(article.getBrand().getId()
+                   ,article.getBrand().getName(),article.getBrand().getDescription()));
+           return articleDtoResponse;
+        });
 
-        return new PageImpl<>(articleList,pageable,articleEntityPage.getTotalElements());
+        return new PageImpl<>(articleResponse.getContent(),pageable,articleEntityPage.getTotalElements());
     }
 
     @Override

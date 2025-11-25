@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandResponse {
+public class CategoryDto {
     private Long id;
     private String name;
     private String description;
