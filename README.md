@@ -4,6 +4,8 @@ Este repositorio contiene el **Microservicio de Stock**, encargado de la gestió
 
 El microservicio está desarrollado bajo una estrategia de seguridad robusta basada en **Spring Security** con **JWT (JSON Web Token) sin estado (stateless)**, validando permisos y roles directamente a través del contexto del token recibido en cada petición.
 
+![Arquitectura](microservice_stock.jfif)
+
 ---
 
 ## 🚀 Tecnologías y Versiones
