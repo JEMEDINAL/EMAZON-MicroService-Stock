@@ -69,4 +69,4 @@ Dado que las configuraciones de base de datos residen en el **`microservice-conf
    ./mvnw clean spring-boot:run
    ```
 ## 🧩 Ecosistema de Microservicios
-* [👤 Microservicio de Usuarios](https://github.com/JEMEDINAL/EMAZON-MicroService-User) - Autenticación, registro y JWT.
+* [👤 Microservicio de Usuarios](https://github.com/JEMEDINAL/EMAZON-MicroService-Users) - Autenticación, registro y JWT.
